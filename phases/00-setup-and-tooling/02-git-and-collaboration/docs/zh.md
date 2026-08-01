@@ -72,8 +72,10 @@ git merge experiment/new-optimizer
 
 ### 第 4 步：在本课程仓库中工作
 
+你无法直接向课程仓库推送代码——只有维护者才有写入权限。先在 GitHub 上 Fork 它（右上角的 Fork 按钮），这样 `origin` 指向的就是你自己的副本：
+
 ```bash
-git clone https://github.com/rohitg00/ai-engineering-from-scratch.git
+git clone https://github.com/YOUR-USERNAME/ai-engineering-from-scratch.git
 cd ai-engineering-from-scratch
 
 git checkout -b my-progress
