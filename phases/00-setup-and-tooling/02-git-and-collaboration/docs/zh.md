@@ -59,6 +59,8 @@ git commit -m "Add perceptron implementation"
 git push origin main
 ```
 
+> 注意：commit 推送到远程后不要用 `--amend` 重写历史；需要改动时直接再提交一个新 commit 即可。
+
 ### 第 3 步：使用分支进行实验
 
 ```bash
