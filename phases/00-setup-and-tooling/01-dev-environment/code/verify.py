@@ -19,6 +19,13 @@ GPU_CHECKS = [
         lambda: __import__("torch").cuda.is_available(),
         lambda: __import__("torch").cuda.get_device_name(0) if __import__("torch").cuda.is_available() else "Not available",
     ),
+    # Apple MPS 新增
+    (
+        "Apple MPS",
+        lambda: __import__("torch").backends.mps.is_available(),
+        lambda: "Apple MPS"
+        if __import__("torch").backends.mps.is_available() else "Not available",
+    ),
 ]
 
 

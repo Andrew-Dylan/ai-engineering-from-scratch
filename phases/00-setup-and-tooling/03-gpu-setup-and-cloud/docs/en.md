@@ -67,6 +67,21 @@ if torch.cuda.is_available():
     print(f"Memory: {torch.cuda.get_device_properties(0).total_memory / 1e9:.1f} GB")
 ```
 
+### Option 1b: Apple Silicon GPU (MPS)
+
+If you're on an M-series Mac, PyTorch uses MPS instead of CUDA:
+
+```python
+import torch
+
+print(f"MPS available: {torch.backends.mps.is_available()}")
+if torch.backends.mps.is_available():
+   device = torch.device("mps")
+   print(f"Device: {device}")
+```
+
+For benchmarks, move tensors to `mps` and use `torch.mps.synchronize()` when available.
+
 ### Option 2: Google Colab
 
 1. Go to [colab.research.google.com](https://colab.research.google.com)
@@ -92,6 +107,18 @@ Most lessons work on CPU. The ones that need GPU will say so and include Colab l
 
 ```python
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"Using: {device}")
+```
+
+On Apple Silicon, use `mps` instead of `cuda`:
+
+```python
+if torch.cuda.is_available():
+   device = torch.device("cuda")
+elif torch.backends.mps.is_available():
+   device = torch.device("mps")
+else:
+   device = torch.device("cpu")
 print(f"Using: {device}")
 ```
 
@@ -122,6 +149,24 @@ if torch.cuda.is_available():
     gpu_time = time.time() - start
     print(f"GPU: {gpu_time:.3f}s")
     print(f"Speedup: {cpu_time / gpu_time:.0f}x")
+```
+
+For Apple Silicon, replace `cuda` with `mps` and guard the synchronize call:
+
+```python
+if torch.backends.mps.is_available():
+   a_gpu = a_cpu.to("mps")
+   b_gpu = b_cpu.to("mps")
+
+   if hasattr(torch.mps, "synchronize"):
+      torch.mps.synchronize()
+   start = time.time()
+   c_gpu = a_gpu @ b_gpu
+   if hasattr(torch.mps, "synchronize"):
+      torch.mps.synchronize()
+   gpu_time = time.time() - start
+   print(f"MPS: {gpu_time:.3f}s")
+   print(f"Speedup: {cpu_time / gpu_time:.0f}x")
 ```
 
 ## Exercises
