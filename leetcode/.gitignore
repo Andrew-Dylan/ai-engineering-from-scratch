@@ -1,0 +1,8 @@
+# LeetCode 刷题产物
+build/
+*.o
+*.out
+a.out
+
+# macOS
+.DS_Store
